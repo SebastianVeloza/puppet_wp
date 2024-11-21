@@ -1,13 +1,15 @@
 class apache {
+  #instalar apache
   package { "apache2":
     ensure => installed,
   }
 
+  #correr el apache
   service { "apache2":
     ensure => running,
     enable => true,
   }
-
+  #configurarlo
   file { "/etc/apache2/sites-available/000-default.conf":
     ensure  => file,
     content => template("apache/apache.conf.erb"),
