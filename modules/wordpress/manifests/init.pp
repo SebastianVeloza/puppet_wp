@@ -6,6 +6,7 @@ class wordpress {
   exec { "download_wordpress":
     command => "wget https://wordpress.org/latest.tar.gz -O /tmp/latest.tar.gz && tar -xzvf /tmp/latest.tar.gz -C /var/www/ && mv /var/www/wordpress /var/www/wordpress",
     creates => "/var/www/wordpress",
+    path    => ["/usr/bin", "/bin"],
     require => Package["wget"],
   }
 
@@ -16,7 +17,9 @@ class wordpress {
   }
 
   exec { "set_permissions":
-    command => "chown -R www-data:www-data /var/www/wordpress",
-    require => File["/var/www/wordpress/wp-config.php"],
-  }
+  command => "chown -R www-data:www-data /var/www/wordpress",
+  path    => ["/usr/bin", "/bin"],
+  require => File["/var/www/wordpress/wp-config.php"],
+}
+
 }
