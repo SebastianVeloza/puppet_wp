@@ -1,4 +1,6 @@
-include apache
-include mysql
-include php
-include wordpress
+node default {
+  include apache
+  include mysql
+  include php 
+  include wordpress
+}

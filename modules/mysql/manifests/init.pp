@@ -1,24 +1,32 @@
 class mysql {
-  package { "mysql-server":
+  package { ['mysql-server', 'mysql-client']:
     ensure => installed,
   }
 
-  service { "mysql":
-    ensure => running,
-    enable => true,
+  service { 'mysql':
+    ensure     => running,
+    enable     => true,
+    hasrestart => true,
   }
 
-  exec { "create_wordpress_db":
-    command => "mysql -e 'CREATE DATABASE wordpress;'",
-    unless  => "mysql -e 'SHOW DATABASES;' | grep wordpress",
-    path    => ["/usr/bin", "/bin"],
-    require => Package["mysql-server"],
+  exec { 'create-database':
+    command => "/usr/bin/mysql -u root -e 'CREATE DATABASE wordpress;'",
+    unless  => "/usr/bin/mysql -u root -e 'SHOW DATABASES;' | grep wordpress",
+    path    => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],
+    require => Service['mysql'],
   }
 
-  exec { "create_wordpress_user":
-    command => "mysql -e \"CREATE USER 'wp_user'@'localhost' IDENTIFIED BY 'wp_pass'; GRANT ALL PRIVILEGES ON wordpress.* TO 'wp_user'@'localhost';\"",
-    unless  => "mysql -e 'SELECT User FROM mysql.user;' | grep wp_user",
-    path    => ["/usr/bin", "/bin"],
-    require => Exec["create_wordpress_db"],
+  exec { 'create-mysql-user':
+    command => "/usr/bin/mysql -u root -e \"CREATE USER 'wp_bd'@'localhost' IDENTIFIED BY '123admin';\"",
+    unless  => "/usr/bin/mysql -u root -e \"SELECT User FROM mysql.user WHERE User = 'wp_bd';\" | grep wp_bd",
+    path    => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],
+    require => Service['mysql'],
+  }
+
+  exec { 'grant-privileges':
+    command => "/usr/bin/mysql -u root -e \"GRANT ALL PRIVILEGES ON *.* TO 'wp_bd'@'localhost' WITH GRANT OPTION;\"",
+    unless  => "/usr/bin/mysql -u root -e \"SHOW GRANTS FOR 'wp_bd'@'localhost';\" | grep 'GRANT ALL PRIVILEGES'",
+    path    => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],
+    require => Exec['create-mysql-user'],
   }
 }
