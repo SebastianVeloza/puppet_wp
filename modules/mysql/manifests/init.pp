@@ -9,6 +9,7 @@ class mysql {
     hasrestart => true,
   }
 
+  #creacion de base de datos
   exec { 'create-database':
     command => "/usr/bin/mysql -u root -e 'CREATE DATABASE wordpress;'",
     unless  => "/usr/bin/mysql -u root -e 'SHOW DATABASES;' | grep wordpress",
@@ -16,6 +17,7 @@ class mysql {
     require => Service['mysql'],
   }
 
+  #creacion de usuario
   exec { 'create-mysql-user':
     command => "/usr/bin/mysql -u root -e \"CREATE USER 'wp_bd'@'localhost' IDENTIFIED BY '123admin';\"",
     unless  => "/usr/bin/mysql -u root -e \"SELECT User FROM mysql.user WHERE User = 'wp_bd';\" | grep wp_bd",
@@ -23,6 +25,7 @@ class mysql {
     require => Service['mysql'],
   }
 
+  #otorgar permisos 
   exec { 'grant-privileges':
     command => "/usr/bin/mysql -u root -e \"GRANT ALL PRIVILEGES ON *.* TO 'wp_bd'@'localhost' WITH GRANT OPTION;\"",
     unless  => "/usr/bin/mysql -u root -e \"SHOW GRANTS FOR 'wp_bd'@'localhost';\" | grep 'GRANT ALL PRIVILEGES'",

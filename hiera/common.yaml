@@ -1,6 +1,0 @@
----
-mysql::root_password: ""
-wordpress::db_name: "wordpress"
-wordpress::admin_user: "admin"
-wordpress::admin_password: "admin"
-wordpress::admin_email: "admin@example.com"
