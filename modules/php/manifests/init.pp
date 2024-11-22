@@ -10,11 +10,4 @@ class php {
     path    => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'],
     require => Package['libapache2-mod-php'],
   }
-
-  exec { 'install-php-mysql':     
-  command => 'sudo apt-get install -y  php-mysqli', 
-  unless => 'php -m | grep -q mysqli', 
-  path => ['/usr/bin', '/usr/sbin', '/bin', '/sbin'], 
-  require => Package['php'], 
-  }
 }
