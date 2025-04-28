@@ -2,9 +2,9 @@
 
 Este repositorio contiene una configuración para desplegar automáticamente un entorno de desarrollo de WordPress usando **Vagrant** y **Puppet**.
 
-## Explicacion
+## Explicación
 
-Youtube:**https://www.youtube.com/watch?v=iUAwnBE-MDI**
+**Youtube:** https://www.youtube.com/watch?v=iUAwnBE-MDI
 
 ## Requisitos
 
@@ -19,7 +19,7 @@ Antes de empezar, asegúrate de tener instalados los siguientes programas en tu 
 ### 1. Clona este repositorio:
 
    ```
-   git clone https://github.com/tu-usuario/tu-repositorio.git
+   git clone https://github.com/SebastianVeloza/puppet_wp.git
    cd tu-repositorio
    ```
 ### 2. Inicia Vagrant para crear y configurar la máquina virtual:
@@ -29,16 +29,6 @@ vagrant up
 ```
 Una vez finalizado el proceso, puedes acceder al sitio de WordPress desde tu navegador en la dirección: http://localhost:8080.
 
-### Estructura del proyecto
-.
-├── manifests/
-│   └── site.pp          # Archivo principal Puppet
-├── modules/
-│   ├── apache/          # Configuración de Apache
-│   ├── mysql/           # Configuración de MySQL
-│   └── wordpress/       # Configuración de WordPress
-├── Vagrantfile          # Configuración de Vagrant
-└── README.md            # Este archivo
 ### Personalización
 Puedes modificar las configuraciones como el nombre de la base de datos, usuario, contraseña, etc., editando los archivos en los módulos Puppet correspondientes.
 
